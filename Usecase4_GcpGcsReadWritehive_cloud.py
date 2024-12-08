@@ -24,7 +24,7 @@ def main():
                               StructField("custlname", StringType(), True),
                               StructField("custage", ShortType(), True),
                               StructField("custprofession", StringType(), True)])
-   gcs_df = spark.read.csv("gs://inceptez-data-store/dataset/custs",mode='dropmalformed',schema=custstructtype1)
+   gcs_df = spark.read.csv("gs://usecase-4-bck/custs",mode='dropmalformed',schema=custstructtype1)
    gcs_df.show(10)
    print("GCS Read Completed Successfully")
    gcs_df.write.mode("overwrite").partitionBy("custage").saveAsTable("default.cust_info_gcs")
@@ -41,7 +41,7 @@ def main():
    gcs_df=spark.read.table("default.cust_info_gcs")
    curts = spark.createDataFrame([1], IntegerType()).withColumn("curts", current_timestamp()).select(date_format(col("curts"), "yyyyMMddHHmmSS")).first()[0]
    print(curts)
-   gcs_df.repartition(2).write.mode("overwrite").csv("gs://inceptez-data-store/dataset/cust_csv")
+   gcs_df.repartition(2).write.mode("overwrite").csv("gs://usecase-4-bck/dataset/cust_csv")
    print("gcs Write Completed Successfully")
 
 main()
