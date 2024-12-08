@@ -24,7 +24,7 @@ def main():
                               StructField("custlname", StringType(), True),
                               StructField("custage", ShortType(), True),
                               StructField("custprofession", StringType(), True)])
-   gcs_df = spark.read.csv("gs://usecase-4-bck/custs",mode='dropmalformed',schema=custstructtype1)
+   gcs_df = spark.read.csv(path="gs://usecase-4-bck/custs",  sep="~", mode='dropmalformed',schema=custstructtype1)
    gcs_df.show(10)
    print("GCS Read Completed Successfully")
    gcs_df.write.mode("overwrite").partitionBy("custage").saveAsTable("default.cust_info_gcs")
